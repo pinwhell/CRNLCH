@@ -122,7 +122,7 @@ bool StartSuspendedCallbackExecuteProcess(const std::string& toLaunch, const std
     HANDLE outhProc;
     HANDLE outhThread;
 
-    if (LaunchProcess(toLaunch.c_str(), args, true, &outhProc, &outhThread) == false)
+    if (LaunchProcess(toLaunch.c_str(), args, false, &outhProc, &outhThread) == false)
     {
         ChronosLaunch::SetLastErrorIfNotSet("Unable to start \'" + toLaunch + "\'");
         return false;
@@ -140,7 +140,7 @@ bool StartSuspendedCallbackExecuteProcess(const std::string& toLaunch, const std
         return false;
     }
 
-    ResumeThread(outhThread);
+    //ResumeThread(outhThread);
 
     if (WaitProcessDie(outhProc) == false)
     {
