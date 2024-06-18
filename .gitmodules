@@ -1,3 +1,6 @@
 [submodule "vendor/clipp"]
 	path = vendor/clipp
 	url = https://github.com/muellan/clipp
+[submodule "vendor/DllInjectionSkeleton"]
+	path = vendor/DllInjectionSkeleton
+	url = https://github.com/pinwhell/DllInjectionSkeleton
