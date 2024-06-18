@@ -33,8 +33,8 @@ void LaunchProcess(const char* processPath, const std::vector<std::string>& cmdl
 {
     // Convert the command-line arguments to a single string separated by spaces
     std::string commandLine = std::string(processPath);
-    std::string launchDir = std::filesystem::path(processPath).parent_path().string();
-    std::string workingDir = _workingDir ? _workingDir : launchDir;
+    std::string launchDir = std::filesystem::absolute(processPath).parent_path().string();
+    std::string workingDir = _workingDir && !std::string(_workingDir).empty() ? _workingDir : launchDir;
 
     for (const auto& arg : cmdline) {
         commandLine += " ";

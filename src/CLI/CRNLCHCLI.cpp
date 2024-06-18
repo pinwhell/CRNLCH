@@ -10,17 +10,17 @@ int CRNLCHMain(int argc, const char** argv)
 {
     try {
         std::string launchExecPath;
+        std::vector<std::string> forwardArgs;
         std::string workingDir;
         std::vector<std::string> toLoadDlls;
-        std::vector<std::string> forwardArgs;
         bool detach = false;
 
         auto cli = (
             clipp::option("--launch") & clipp::value("to launch .exe", launchExecPath).required(true),
+            clipp::option("--cmdline") & clipp::values("forward cmline args", forwardArgs).required(false),
             clipp::option("--working-dir") & clipp::value("working directory to forward", workingDir).required(false),
             clipp::option("--detach") & clipp::value("detach from process", detach).required(false),
-            clipp::option("--preload") & clipp::values("to preload dlls", toLoadDlls).required(false),
-            clipp::option("--cmdline") & clipp::values("forward cmline args", forwardArgs).required(false)
+            clipp::option("--preload") & clipp::values("to preload dlls", toLoadDlls).required(false)
             );
 
         auto results = clipp::parse(argc, const_cast<char**>(argv), cli);
@@ -32,9 +32,7 @@ int CRNLCHMain(int argc, const char** argv)
             return false;
         }
 
-        StartSuspendedCallbackExecuteProcess(launchExecPath, forwardArgs, workingDir, [&](HANDLE hProc) {
-
-            }, detach);
+        LaunchProcess(launchExecPath, forwardArgs, workingDir, toLoadDlls, detach);
 
         return 0;
     }
